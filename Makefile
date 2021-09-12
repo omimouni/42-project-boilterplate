@@ -6,7 +6,7 @@
 #    By: omimouni <omimouni@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/12 10:51:56 by omimouni          #+#    #+#              #
-#    Updated: 2021/09/12 11:25:23 by omimouni         ###   ########.fr        #
+#    Updated: 2021/09/12 11:32:42 by omimouni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,17 +19,23 @@ GCC	 = @/usr/bin/env gcc
 RM = @/usr/bin/env rm
 
 FLAGS_OBJS = -I./include -c -o
-	
-all: $(OBJS)
-	$(GCC) -o $(NAME) $(OBJS)
 
-clean: $(OBJS)
+all: $(NAME)
+
+clean:
 	$(RM) -rf $(OBJS)
+	@make -sC ./libft clean
 
 fclean: clean
 	$(RM) -rf $(NAME)
+	$(RM) -rf build/
+	@make -sC ./libft fclean
 
-re:
+re: fclean all
+
+$(NAME): $(OBJS)
+	@make -sC ./libft
+	$(GCC) -o $(NAME) $(OBJS)
 
 build/%.o: src/%.c
 	@mkdir -p $(dir $@)
